@@ -1,6 +1,8 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
 #include "iostream"
+#include "wnetwrap.h"
+#include "json.hpp"
 
 namespace Dashboard {
 
@@ -626,10 +628,18 @@ namespace Dashboard {
 		auto email = msclr::interop::marshal_as<std::string>(this->textboxRegisterEmail->Text);
 		
 		if (!username.empty() && !password.empty() && !email.empty()) {
-			std::cout << username << std::endl;
-			std::cout << password << std::endl;
-			std::cout << email << std::endl;
-			//TODO: http request for register.php
+			
+			auto url = "http://localhost/cpp/register.php?user=" + username + "&password=" + password;
+			wrap::Response r = wrap::HttpsRequest(wrap::Url{url});
+			std::cout << r.url << std::endl;
+			std::cout << r.text << std::endl; // basic parser
+			std::cout << r.status_code << std::endl; // 200
+
+			nlohmann::json j = nlohmann::json::parse(r.text);
+			auto t = j["text"];
+
+			std::cout << t << std::endl;
+			//TODO: Create a popup
 		}
 	}
 	private: System::Void buttonLogin_Click(System::Object^ sender, System::EventArgs^ e) {

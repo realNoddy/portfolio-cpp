@@ -1,7 +1,6 @@
 #include "LoginForm.h"
 #include <Windows.h>
 #include "iostream"
-#include "wnetwrap.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -22,12 +21,6 @@ void main() {
 	//Application::SetCompatibleTextRenderingDefault(false);
 
     SpawnConsoleWindow();
-
-    //Doesnt seem to work on localhost
-    //wrap::Response r = wrap::HttpsRequest(wrap::Url{"https://localhost/"});
-    //std::cout << r.url << std::endl;
-    //std::cout << r.text << std::endl; // basic parser
-    //std::cout << r.status_code << std::endl; // 200
 
 	Dashboard::LoginForm form;
 	Application::Run(% form);
